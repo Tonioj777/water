@@ -1,4 +1,4 @@
-<script>
+
 document.addEventListener('DOMContentLoaded', function() {
     const employeeInputs = document.getElementById('employeeInputs');
     const addEmployeeBtn = document.getElementById('addEmployee');
@@ -161,4 +161,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Генерируем график при загрузке
     generateScheduleBtn.click();
 });
-</script>
+
