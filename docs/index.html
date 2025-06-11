@@ -11,79 +11,76 @@
 </head>
 
 <body>
-  <div class="container">
-    <h1>График набора воды</h1>
-
-    <div class="controls">
-      <div class="employee-list" id="employeeInputs">
-        <input type="text" class="employee-input" placeholder="Имя сотрудника" value="Дима">
-        <input type="text" class="employee-input" placeholder="Имя сотрудника" value="Петя">
-        <input type="text" class="employee-input" placeholder="Имя сотрудника" value="Антон">
-        <input type="text" class="employee-input" placeholder="Имя сотрудника" value="Юра">
-      </div>
-
-      <div class="button-group">
-        <button id="addEmployee">
-          <span>Добавить сотрудника</span>
-        </button>
-        <button id="removeEmployee">
-          <span>Удалить сотрудника</span>
-        </button>
-        <button id="generateSchedule">
-          <span>Сгенерировать график</span>
-        </button> 
-      </div>
-
-      <div class="exclude-days">
-        <strong>Исключить дни:</strong>
-        <div class="days-container">
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeMon">
-            <span class="day-checkbox-label">Понедельник</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeTue">
-            <span class="day-checkbox-label">Вторник</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeWed">
-            <span class="day-checkbox-label">Среда</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeThu">
-            <span class="day-checkbox-label">Четверг</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeFri">
-            <span class="day-checkbox-label">Пятница</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeSat" checked>
-            <span class="day-checkbox-label">Суббота</span>
-          </label>
-          <label class="day-checkbox">
-            <input type="checkbox" id="excludeSun" checked>
-            <span class="day-checkbox-label">Воскресенье</span>
-          </label>
+ <div class="container">
+        <h1>График работы</h1>
+        
+        <div class="controls">
+            <div class="employee-list" id="employeeInputs">
+                <!-- Сотрудники будут добавлены через JS -->
+            </div>
+            
+            <div class="button-group">
+                <button id="addEmployee">
+                    <span>Добавить сотрудника</span>
+                </button>
+                <button id="removeEmployee">
+                    <span>Удалить сотрудника</span>
+                </button>
+                <button id="generateSchedule">
+                    <span>Сгенерировать график</span>
+                </button>
+            </div>
+            
+            <div class="exclude-days">
+                <strong>Исключить дни:</strong>
+                <div class="days-container">
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeMon">
+                        <span class="day-checkbox-label">Понедельник</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeTue">
+                        <span class="day-checkbox-label">Вторник</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeWed">
+                        <span class="day-checkbox-label">Среда</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeThu">
+                        <span class="day-checkbox-label">Четверг</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeFri">
+                        <span class="day-checkbox-label">Пятница</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeSat" checked>
+                        <span class="day-checkbox-label">Суббота</span>
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" id="excludeSun" checked>
+                        <span class="day-checkbox-label">Воскресенье</span>
+                    </label>
+                </div>
+            </div>
         </div>
-      </div>
+        
+        <div class="schedule-container">
+            <table class="schedule" id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>День недели</th>
+                        <th>Сотрудник</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <!-- Здесь будет генерироваться график -->
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <div class="schedule-container">
-      <table class="schedule" id="scheduleTable">
-        <thead>
-          <tr>
-            <th>Дата</th>
-            <th>День недели</th>
-            <th>Сотрудник</th>
-          </tr>
-        </thead>
-        <tbody id="scheduleBody">
-          <!-- Здесь будет генерироваться график -->
-        </tbody>
-      </table>
-    </div>
-  </div>
 
   <script src="./main.js"></script>
 </body>
