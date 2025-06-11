@@ -1,0 +1,380 @@
+/* Reset and base styles  */
+* {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Links */
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Common */
+
+aside,
+nav,
+footer,
+header,
+section,
+main {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul,
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+/* Form */
+
+input,
+textarea,
+button,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background-color: transparent;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button,
+input[type="submit"] {
+  display: inline-block;
+  box-shadow: none;
+  background-color: transparent;
+  background: none;
+  cursor: pointer;
+}
+
+input:focus,
+input:active,
+button:focus,
+button:active {
+  outline: none;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+legend {
+  display: block;
+}
+
+input[type="file"] {
+  max-width: 100%;
+}
+:root {
+  --primary-color: #3498db;
+  --primary-hover: #2980b9;
+  --success-color: #2ecc71;
+  --success-hover: #27ae60;
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
+  --light-bg: #f8f9fa;
+  --border-color: #e0e0e0;
+  --text-color: #333;
+  --text-light: #777;
+  --non-working-bg: #fef0f0;
+  --current-day-bg: #fffde7;
+}
+
+body {
+   font-family: 'Montserrat', Arial, sans-serif;
+   max-width: 100%;
+   margin: 0;
+   padding: 15px;
+   color: var(--text-color);
+   line-height: 1.5;
+   background-color: #f5f7fa;
+ }
+
+ h1 {
+   text-align: center;
+   color: #2c3e50;
+   font-weight: 600;
+   margin: 0 0 20px 0;
+   font-size: 1.5rem;
+ }
+
+ .container {
+   max-width: 800px;
+   margin: 0 auto;
+ }
+
+ .controls {
+   background-color: white;
+   padding: 15px;
+   border-radius: 10px;
+   margin-bottom: 20px;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ }
+
+ .employee-list {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 8px;
+   margin-bottom: 15px;
+ }
+
+ .employee-input {
+   flex: 1 1 calc(50% - 8px);
+   min-width: 0;
+   padding: 10px 12px;
+   border: 1px solid var(--border-color);
+   border-radius: 6px;
+   font-family: 'Montserrat', sans-serif;
+   font-size: 14px;
+ }
+
+ .button-group {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 8px;
+   margin-bottom: 15px;
+ }
+
+ button {
+   flex: 1 1 calc(50% - 8px);
+   min-width: 120px;
+   background-color: var(--primary-color);
+   color: white;
+   border: none;
+   padding: 10px;
+   border-radius: 6px;
+   cursor: pointer;
+   font-family: 'Montserrat', sans-serif;
+   font-weight: 500;
+   font-size: 14px;
+   transition: all 0.2s;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+ button:hover {
+   transform: translateY(-1px);
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ }
+
+ button:active {
+   transform: translateY(0);
+ }
+
+ #generateSchedule {
+   background-color: var(--success-color);
+ }
+
+ #generateSchedule:hover {
+   background-color: var(--success-hover);
+ }
+
+ #removeEmployee {
+   background-color: var(--danger-color);
+ }
+
+ #removeEmployee:hover {
+   background-color: var(--danger-hover);
+ }
+
+ .exclude-days {
+   margin-top: 15px;
+ }
+
+ .exclude-days strong {
+   display: block;
+   margin-bottom: 10px;
+   font-weight: 500;
+   font-size: 15px;
+ }
+
+ .days-container {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 6px;
+ }
+
+ .day-checkbox {
+   position: relative;
+   flex: 1 1 calc(33.333% - 6px);
+   min-width: 0;
+ }
+
+ .day-checkbox input {
+   position: absolute;
+   opacity: 0;
+   cursor: pointer;
+   height: 0;
+   width: 0;
+ }
+
+ .day-checkbox-label {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 8px 5px;
+   background-color: #ecf0f1;
+   border-radius: 6px;
+   cursor: pointer;
+   transition: all 0.2s;
+   font-size: 13px;
+   text-align: center;
+   height: 100%;
+ }
+
+ .day-checkbox input:checked~.day-checkbox-label {
+   background-color: var(--danger-color);
+   color: white;
+ }
+
+ .schedule-container {
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+   margin-bottom: 20px;
+   background-color: white;
+   border-radius: 10px;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ }
+
+ .schedule {
+   width: 100%;
+   border-collapse: collapse;
+   min-width: 100%;
+ }
+
+ .schedule th {
+   background-color: var(--primary-color);
+   color: white;
+   padding: 12px 8px;
+   text-align: center;
+   font-weight: 500;
+   font-size: 14px;
+ }
+
+ .schedule td {
+   border: 1px solid var(--border-color);
+   padding: 10px 8px;
+   text-align: center;
+   font-size: 14px;
+ }
+
+ .schedule tr:nth-child(even) {
+   background-color: var(--light-bg);
+ }
+
+ .non-working {
+   background-color: var(--non-working-bg) !important;
+   color: var(--text-light);
+ }
+
+ .current-day {
+   background-color: var(--current-day-bg) !important;
+   font-weight: 500;
+   position: relative;
+ }
+
+ .current-day::after {
+   content: "★";
+   position: absolute;
+   right: 3px;
+   top: 3px;
+   font-size: 20px;
+   color: var(--primary-color);
+ }
+
+ @media (min-width: 576px) {
+   h1 {
+     font-size: 1.8rem;
+     margin-bottom: 25px;
+   }
+
+   .controls {
+     padding: 20px;
+   }
+
+   .employee-input {
+     flex: 1 1 calc(33.333% - 8px);
+   }
+
+   .day-checkbox {
+     flex: 1 1 calc(20% - 6px);
+   }
+
+   button {
+     flex: 1 1 auto;
+     padding: 10px 15px;
+   }
+
+   .schedule th,
+   .schedule td {
+     padding: 12px 10px;
+     font-size: 15px;
+   }
+ }
+
+ @media (min-width: 768px) {
+   body {
+     padding: 20px;
+   }
+
+   .employee-input {
+     flex: 1;
+   }
+
+   .day-checkbox {
+     flex: 1;
+   }
+
+   .day-checkbox-label {
+     padding: 8px 12px;
+     font-size: 14px;
+   }
+ }
