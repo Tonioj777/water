@@ -8,85 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Названия дней недели (начинаем с понедельника)
             const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
             
-            // Ключи для localStorage
-            const STORAGE_KEYS = {
-                EMPLOYEES: 'workSchedule_employees',
-                EXCLUDED_DAYS: 'workSchedule_excludedDays'
-            };
-            
-            // Загрузка данных из localStorage
-            function loadFromStorage() {
-                // Загружаем сотрудников
-                const savedEmployees = localStorage.getItem(STORAGE_KEYS.EMPLOYEES);
-                if (savedEmployees) {
-                    const employees = JSON.parse(savedEmployees);
-                    employees.forEach(employee => {
-                        addEmployeeInput(employee);
-                    });
-                } else {
-                    // Значения по умолчанию
-                    ['Дима', 'Петя', 'Антон', 'Юра'].forEach(addEmployeeInput);
-                }
-                
-                // Загружаем исключенные дни
-                const savedExcludedDays = localStorage.getItem(STORAGE_KEYS.EXCLUDED_DAYS);
-                if (savedExcludedDays) {
-                    const excludedDays = JSON.parse(savedExcludedDays);
-                    excludedDays.forEach(dayIndex => {
-                        const checkbox = document.getElementById(`exclude${getDayName(dayIndex)}`);
-                        if (checkbox) checkbox.checked = true;
-                    });
-                } else {
-                    // По умолчанию исключаем выходные
-                    document.getElementById('excludeSat').checked = true;
-                    document.getElementById('excludeSun').checked = true;
-                }
-            }
-            
-            // Сохранение данных в localStorage
-            function saveToStorage() {
-                // Сохраняем сотрудников
-                const employees = [];
-                const inputs = employeeInputs.querySelectorAll('.employee-input');
-                inputs.forEach(input => {
-                    if (input.value.trim() !== '') {
-                        employees.push(input.value.trim());
-                    }
-                });
-                localStorage.setItem(STORAGE_KEYS.EMPLOYEES, JSON.stringify(employees));
-                
-                // Сохраняем исключенные дни
-                const excludedDays = [];
-                if (document.getElementById('excludeMon').checked) excludedDays.push(0);
-                if (document.getElementById('excludeTue').checked) excludedDays.push(1);
-                if (document.getElementById('excludeWed').checked) excludedDays.push(2);
-                if (document.getElementById('excludeThu').checked) excludedDays.push(3);
-                if (document.getElementById('excludeFri').checked) excludedDays.push(4);
-                if (document.getElementById('excludeSat').checked) excludedDays.push(5);
-                if (document.getElementById('excludeSun').checked) excludedDays.push(6);
-                localStorage.setItem(STORAGE_KEYS.EXCLUDED_DAYS, JSON.stringify(excludedDays));
-            }
-            
-            // Вспомогательная функция для получения имени дня
-            function getDayName(dayIndex) {
-                const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                return days[dayIndex];
-            }
-            
-            // Добавление поля для сотрудника
-            function addEmployeeInput(value = '') {
+            // Добавление нового сотрудника
+            addEmployeeBtn.addEventListener('click', function() {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.className = 'employee-input';
                 input.placeholder = 'Имя сотрудника';
-                input.value = value;
                 employeeInputs.appendChild(input);
-                saveToStorage();
-            }
-            
-            // Добавление нового сотрудника
-            addEmployeeBtn.addEventListener('click', function() {
-                addEmployeeInput();
             });
             
             // Удаление последнего сотрудника
@@ -94,15 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const inputs = employeeInputs.querySelectorAll('.employee-input');
                 if (inputs.length > 1) {
                     employeeInputs.removeChild(inputs[inputs.length - 1]);
-                    saveToStorage();
                 } else {
                     alert('Должен остаться хотя бы один сотрудник!');
                 }
-            });
-            
-            // Обработка изменений в исключенных днях
-            document.querySelectorAll('.days-container input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', saveToStorage);
             });
             
             // Генерация графика
@@ -190,16 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Загрузка данных при старте
-            loadFromStorage();
-            
-            // Генерация графика при загрузке
+            // Генерируем график при загрузке
             generateScheduleBtn.click();
-            
-            // Сохранение при изменении имен сотрудников
-            employeeInputs.addEventListener('input', function(e) {
-                if (e.target.classList.contains('employee-input')) {
-                    saveToStorage();
-                }
-            });
         });
