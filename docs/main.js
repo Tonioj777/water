@@ -1,6 +1,6 @@
 
   document.addEventListener('DOMContentLoaded', function() {
-  const employeeInputs = document.getElementById('employeeInputs');
+    const employeeInputs = document.getElementById('employeeInputs');
   const addEmployeeBtn = document.getElementById('addEmployee');
   const removeEmployeeBtn = document.getElementById('removeEmployee');
   const generateScheduleBtn = document.getElementById('generateSchedule');
@@ -8,6 +8,9 @@
 
   // Названия дней недели (начинаем с понедельника)
   const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+
+  // Стандартные сотрудники
+  const DEFAULT_EMPLOYEES = ['Дима', 'Петя', 'Антон', 'Юра'];
 
   // Функция для сохранения сотрудников в localStorage
   function saveEmployees() {
@@ -19,21 +22,62 @@
   localStorage.setItem('workSchedule_employees', JSON.stringify(employees));
     }
 
+  // Функция для сохранения выходных дней
+  function saveExcludedDays() {
+        const excludedDays = [];
+  if (document.getElementById('excludeMon').checked) excludedDays.push(0);
+  if (document.getElementById('excludeTue').checked) excludedDays.push(1);
+  if (document.getElementById('excludeWed').checked) excludedDays.push(2);
+  if (document.getElementById('excludeThu').checked) excludedDays.push(3);
+  if (document.getElementById('excludeFri').checked) excludedDays.push(4);
+  if (document.getElementById('excludeSat').checked) excludedDays.push(5);
+  if (document.getElementById('excludeSun').checked) excludedDays.push(6);
+  localStorage.setItem('workSchedule_excludedDays', JSON.stringify(excludedDays));
+    }
+
   // Функция для загрузки сотрудников из localStorage
   function loadEmployees() {
-        const savedEmployees = localStorage.getItem('workSchedule_employees');
-  if (savedEmployees) {
+    // Всегда сначала очищаем все поля
+    employeeInputs.innerHTML = '';
+
+  const savedEmployees = localStorage.getItem('workSchedule_employees');
+
+  // Если есть сохраненные сотрудники и их ровно 4 - загружаем их
+  if (savedEmployees && JSON.parse(savedEmployees).length === 4) {
             const employees = JSON.parse(savedEmployees);
-  employeeInputs.innerHTML = ''; // Очищаем существующие поля
             employees.forEach(employee => {
     addEmployeeInput(employee);
             });
         } else {
-    // Если нет сохраненных данных, создаем 4 сотрудника по умолчанию
-    ['Дима', 'Петя', 'Антон', 'Юра'].forEach(name => {
+    // В любом другом случае создаем 4 стандартных сотрудника
+    DEFAULT_EMPLOYEES.forEach(name => {
       addEmployeeInput(name);
     });
-  saveEmployees(); // Сохраняем значения по умолчанию
+  saveEmployees(); // Сохраняем стандартных сотрудников
+        }
+    }
+
+  // Функция для загрузки выходных дней
+  function loadExcludedDays() {
+        const savedExcludedDays = localStorage.getItem('workSchedule_excludedDays');
+
+        // Сначала сбрасываем все чекбоксы
+        document.querySelectorAll('.days-container input[type="checkbox"]').forEach(checkbox => {
+    checkbox.checked = false;
+        });
+
+  if (savedExcludedDays) {
+            // Загружаем сохраненные выходные дни
+            const excludedDays = JSON.parse(savedExcludedDays);
+            excludedDays.forEach(dayIndex => {
+                const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const checkbox = document.getElementById(`exclude${dayNames[dayIndex]}`);
+  if (checkbox) checkbox.checked = true;
+            });
+        } else {
+    // По умолчанию только воскресенье - выходной
+    document.getElementById('excludeSun').checked = true;
+  saveExcludedDays();
         }
     }
 
@@ -48,9 +92,6 @@
 
   // Сохраняем при изменении имени
   input.addEventListener('input', saveEmployees);
-
-  // Сохраняем после добавления
-  saveEmployees();
     }
 
   // Удаление последнего сотрудника (с сохранением)
@@ -67,11 +108,17 @@
   // Назначаем обработчики событий
   addEmployeeBtn.addEventListener('click', function() {
     addEmployeeInput();
+  saveEmployees();
     });
 
   removeEmployeeBtn.addEventListener('click', removeEmployee);
 
-  // Генерация графика (без изменений)
+    // Обработчики для чекбоксов выходных дней
+    document.querySelectorAll('.days-container input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', saveExcludedDays);
+    });
+
+  // Генерация графика
   generateScheduleBtn.addEventListener('click', function() {
         // Получаем список сотрудников
         const employees = [];
@@ -155,9 +202,11 @@
         }
     });
 
-  // Загружаем сотрудников при старте
+  // Загружаем данные при старте
   loadEmployees();
+  loadExcludedDays();
 
   // Генерируем график при загрузке
   generateScheduleBtn.click();
 });
+
